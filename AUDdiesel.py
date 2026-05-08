@@ -3,18 +3,19 @@ import matplotlib.pyplot as plt
 import time
 import sys
 
+###_ _ _ _ _ _ _ _ _ Functions _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+from Functions import (
+                        visualisation,
+                        nsw_vs_metro_region
+                        )
+
+###_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
 AUD_diesel = pd.read_csv('Avg_DieselPrice_AUD.csv', on_bad_lines="skip")
 
-### Line Graph - - - - - - - - - - - - - - - -
 
-AUD_diesel.plot(x='Date', y='Cents per litre (NSW)', kind='line', title='Rise in diesel over time')
 
-###- - - - - - - - - - - - - - - - - - - - - -
 
-### Line Graph (against AUD average) - - - - - - - - - - - - - - - -
+nsw_vs_metro_region
 
-AUD_diesel.plot(x='Date', y='Cents per litre (NSW)', secondary_y= True, y= 'Metro region average', kind='line', title='Rise in diesel over time')
-
-plt.show()
-
-###- - - - - - - - - - - - - - - - - - - - - -
