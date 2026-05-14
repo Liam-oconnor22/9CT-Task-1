@@ -35,7 +35,7 @@ def nsw_vs_metro_region():
 
 def filter_data():
     print("Columns are: Date, NSW average, Metro average")
-    print("rows are: 0 -> 13.")
+    print("rows are: 1 -> 13.")
     search = input("Please enter a column or row you would like to view.").lower()
 
     ###- columns
