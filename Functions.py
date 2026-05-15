@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import sys
 import time
 
-
 AUD_diesel = pd.read_csv('Avg_DieselPrice_AUD.csv', on_bad_lines="skip")
 
 
@@ -35,7 +34,7 @@ def nsw_vs_metro_region():
 
 def filter_data():
     print("Columns are: Date, NSW average, Metro average")
-    print("rows are: 1 -> 13.")
+    print("rows are: 1 -> 13. Note that each row represents the month of when the price was recorded, being from row 1,may 2025 to row 13,may 2026.")
     search = input("Please enter a column or row you would like to view.").lower()
 
     ###- columns
@@ -93,7 +92,23 @@ def filter_data():
         print(thirteenth_row)
 
     else:
-        print("you suck")
+        print("This is not a listed column/row. Please try again.")
+        search = input("Please enter a column or row you would like to view.").lower()
+
+
+
+def upd_data_entry():
+
+    NSW_column = AUD_diesel['Cents per litre (NSW)']
+    Metro_column = AUD_diesel[' Metro Region Average']
+
+    row_idx = int(input("Select the row index you would like to update (0-12, 13+ to add new rows.)   "))
+    col_name = input("Please enter the column name you would like to update (Date, NSW_column, Metro_column. Entering anything else will add a new column listed under it.)   ")
+
+    new_val = input(f"Enter the new value in place of the {col_name} column and row {row_idx}.")
+
+    AUD_diesel.at[row_idx, col_name] = new_val
+    print(AUD_diesel)
 
 ###-------------------------------------------------------------------------------------###
 
@@ -117,18 +132,18 @@ def main():
         time.sleep(0.5)
         print("4. Update a data entry.                        ||")
         time.sleep(0.5)
-        print("5. Save changes                                ||")
+        print("5. Save changes to file.                               ||")
         time.sleep(0.5)
         print("6. Exit.                                       ||")
         print("||=-=-=--=--=---=-=-=--=-=-=-=-=-=-==-=-=-=-=-=||")
         time.sleep(0.5)
-        data_viewing = int(input("Select an option 1-6.|"))
-        print("_____________________/")
+        data_viewing = int(input("Select an option 1-6. |   "))
+        print("|___|___|___|___|___|_/")
 
         if data_viewing == 1:
             print(AUD_diesel)
         if data_viewing == 2:
-            graphs = input("View graph 1- NSW diesel overtime, or graph 2- NSW diesel versus Mewtro region average? (1/2)   ")
+            graphs = input("View graph 1- NSW diesel overtime, or graph 2- NSW diesel versus Metro region average? (1/2)   ")
             if graphs == '1':
                 visualisation()
             elif graphs == '2':
@@ -147,13 +162,22 @@ def main():
             filter_data()
         if data_viewing == 4:
             time.sleep(1)
-            print("4")
+            upd_data_entry()
         if data_viewing == 5:
             time.sleep(1)
-            print("5")
+            verify = input("Are you sure you would like to save your changes? (yes/no)   ").lower()
+            if verify == 'yes':
+                AUD_diesel.to_csv("AVG_DieselPrice_AUD.csv", index=False)
+                time.sleep(1)
+                print("✅ Entry updated and saved to AVG_DieselPrice_AUD.csv")
+            else:
+                time.sleep(1)
+                print("Changes were not saved. returning to main menu...")
         if data_viewing == 6:
             time.sleep(1)
             print("Exiting menu...")
+            time.sleep(1)
+            print("            ...")
             break
 
 
