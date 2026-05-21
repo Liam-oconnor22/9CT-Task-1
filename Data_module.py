@@ -34,66 +34,31 @@ def nsw_vs_metro_region():
 
 def filter_data():
     print("Columns are: Date, NSW average, Metro average")
-    print("rows are: 1 -> 13. Note that each row represents the month of when the price was recorded, being from row 1,may 2025 to row 13,may 2026.")
-    search = input("Please enter a column or row you would like to view.").lower()
+    print("rows are: 1. Note that each row represents the month of when the price was recorded, being from row 1,may 2025 to row 13,may 2026 (or later depending on updated data).")
+    search = input("View a row or column? (row/column)   ").lower()
 
     ###- columns
-
-    if search == 'date':
-        date_column = AUD_diesel["Date"]
-        print(date_column)
-    elif search == 'nsw average':
-        NSW_column = AUD_diesel['Cents per litre (NSW)']
-        print(NSW_column)
-    elif search == 'metro average':
-        Metro_column = AUD_diesel[' Metro Region Average']
-        print(Metro_column)
+    if search == "column":
+        column_q = input("Please select a column.")
+        if column_q == 'date':
+            date_column = AUD_diesel["Date"]
+            print(date_column)
+        elif column_q == 'nsw average':
+            NSW_column = AUD_diesel['Cents per litre (NSW)']
+            print(NSW_column)
+        elif column_q == 'metro average':
+            Metro_column = AUD_diesel[' Metro Region Average']
+            print(Metro_column)
 
     ###- rows
 
-    elif search == '1':
-        first_row = AUD_diesel.iloc[0]
-        print(first_row)
-    elif search == '2':
-        second_row = AUD_diesel.iloc[1]
-        print(second_row)
-    elif search == '3':
-        third_row = AUD_diesel.iloc[2]
-        print(third_row)
-    elif search == '4':
-        fourth_row = AUD_diesel.iloc[3]
-        print(fourth_row)
-    elif search == '5':
-        fifth_row = AUD_diesel.iloc[4]
-        print(fifth_row)
-    elif search == '6':
-        sixth_row = AUD_diesel.iloc[5]
-        print(sixth_row)
-    elif search == '7':
-        seventh_row = AUD_diesel.iloc[6]
-        print(seventh_row)
-    elif search == '8':
-        eighth_row = AUD_diesel.iloc[7]
-        print(eighth_row)
-    elif search == '9':
-        ninth_row = AUD_diesel.iloc[8]
-        print(ninth_row)
-    elif search == '10':
-        tenth_row = AUD_diesel.iloc[9]
-        print(tenth_row)
-    elif search == '11':
-        eleventh_row = AUD_diesel.iloc[10]
-        print(eleventh_row)
-    elif search == '12':
-        twelfth_row = AUD_diesel.iloc[11]
-        print(twelfth_row)
-    elif search == '13':
-        thirteenth_row = AUD_diesel.iloc[12]
-        print(thirteenth_row)
-
-    else:
-        print("This is not a listed column/row. Please try again.")
-        search = input("Please enter a column or row you would like to view.").lower()
+    if search == "row":
+        row_q= int(input("Please enter a row number (1+).   "))
+        try:
+            row_index = row_q - 1  
+            print(AUD_diesel.iloc[row_index])
+        except (ValueError, IndexError):
+            print("Invalid input. Please enter a valid row number.")
 
 
 
@@ -167,6 +132,7 @@ def main():
             time.sleep(1)
             verify = input("Are you sure you would like to save your changes? (yes/no)   ").lower()
             if verify == 'yes':
+                print("If a column was deleted, make sure to delete the commas in the dataset!")
                 AUD_diesel.to_csv("AVG_DieselPrice_AUD.csv", index=False)
                 time.sleep(1)
                 print("✅ Entry updated and saved to AVG_DieselPrice_AUD.csv")
