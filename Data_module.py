@@ -5,13 +5,14 @@ import matplotlib.pyplot as plt
 import sys
 import time
 
+#- reads in the csv file containing the data
 AUD_diesel = pd.read_csv('Avg_DieselPrice_AUD.csv', on_bad_lines="skip")
 
 
 
 
 
-
+### line graphs, visualisation shows the average cents per litre for diesel in New South Whales while the other compared it to the metro region average
 
 
 def visualisation():
@@ -31,13 +32,14 @@ def nsw_vs_metro_region():
     plt.legend() 
     plt.show()
 
+# Allows the user to check for columns and rows and then view that data specifically
 
 def filter_data():
     print("Columns are: Date, NSW average, Metro average")
     print("rows are: 1. Note that each row represents the month of when the price was recorded, being from row 1,may 2025 to row 13,may 2026 (or later depending on updated data).")
     search = input("View a row or column? (row/column)   ").lower()
 
-    ###- columns
+    ###- columns, checks if the column exists in the dataframe, then responds accordingly
     if search == "column":
         column_q = input("Please select a column.")
         if column_q == 'date':
@@ -49,9 +51,12 @@ def filter_data():
         elif column_q == 'metro average':
             Metro_column = AUD_diesel[' Metro Region Average']
             print(Metro_column)
+        else:
+            print("Invalid column, returning to main menu.")
 
-    ###- rows
-
+    ###- rows, User enters a row number, which is checked if it is existing in the dataframe. If this is true, it selects the row and displays that rows data,
+    ## If not, ValueError states that the input is the right data at an inappropriate value , and IndexError states that the row doesnt exist. 
+    # E.G trying to access row 14 despite only having 13 rows is an IndexError.
     if search == "row":
         row_q= int(input("Please enter a row number (1+).   "))
         try:
@@ -60,7 +65,7 @@ def filter_data():
         except (ValueError, IndexError):
             print("Invalid input. Please enter a valid row number.")
 
-
+# Allows the user to save changes to the csv file permanently (until its removed)
 
 def upd_data_entry():
 
@@ -76,7 +81,7 @@ def upd_data_entry():
     print(AUD_diesel)
 
 ###-------------------------------------------------------------------------------------###
-
+# user interface- allows the user to navigate through a main menu and access all the functions which alter, display, or update the data frame.
 def main():
     print("Loading..")
     time.sleep(1)
